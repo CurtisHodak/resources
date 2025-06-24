@@ -1,0 +1,64 @@
+version: v1
+
+name: Custom Terraform 1.10.0 Workflow
+
+on:
+  plan:
+    steps:
+      - name: Download and Setup Terraform 1.10.0
+        command: |
+          wget https://xxx/terraform_1.10.0_linux_amd64.zip
+          unzip terraform_1.10.0_linux_amd64.zip
+          mv terraform ~/terraform
+          chmod +x ~/terraform
+          echo 'export PATH=$PATH:~/' >> ~/.bashrc
+          export PATH=$PATH:~/
+
+      - name: Init
+        command: ~/terraform init -input=false
+
+      - name: Select Workspace
+        command: |
+          if ~/terraform workspace select "{{ .WorkspaceName }}"; then
+            echo "Workspace {{ .WorkspaceName }} selected"
+          else
+            ~/terraform workspace new "{{ .WorkspaceName }}"
+          fi
+
+      - name: Plan
+        command: |
+          ~/terraform plan -input=false -lock={{ .Lock }} \
+            {{ if not .Refresh }}-refresh=false{{ end }} \
+            -out={{ .PlanFileName }} \
+            {{ range .Targets }}-target='{{ . }}' {{ end }}
+
+  apply:
+    steps:
+      - name: Apply
+        command: ~/terraform apply -auto-approve -input=false "{{ .PlanFileName }}"
+
+  destroy:
+    steps:
+      - name: Destroy
+        command: ~/terraform destroy -auto-approve -input=false
+
+  outputs:
+    steps:
+      - name: Get Outputs
+        command: ~/terraform output -json
+
+  inspect:
+    steps:
+      - name: Show Plan
+        command: ~/terraform show -json "{{ .PlanFileName }}"
+      - name: Show State
+        command: ~/terraform show -json
+
+
+
+
+
+
+
+
+
