@@ -1,46 +1,9 @@
-version: v1
-
-name: Terraform Workflow (Custom Binary via Hook)
-
-on:
-  plan:
-    steps:
-      - name: Init
-        command: terraform init -input=false
-
-      - name: Workspace Select or New
-        command: |
-          if terraform workspace select "{{ .WorkspaceName }}"; then
-            echo "Workspace '{{ .WorkspaceName }}' selected"
-          else
-            terraform workspace new "{{ .WorkspaceName }}"
-          fi
-
-      - name: Plan
-        command: |
-          terraform plan -input=false -lock={{ .Lock }} \
-          {{ if not .Refresh }}-refresh=false{{ end }} \
-          -out={{ .PlanFileName }} \
-          {{ range .Targets }}-target='{{ . }}' {{ end }}
-
-  apply:
-    steps:
-      - name: Apply
-        command: terraform apply -auto-approve -input=false "{{ .PlanFileName }}"
-
-  destroy:
-    steps:
-      - name: Destroy
-        command: terraform destroy -auto-approve -input=false
-
-  outputs:
-    steps:
-      - name: Get Outputs
-        command: terraform output -json
-
-  inspect:
-    steps:
-      - name: Show Plan
-        command: terraform show -json "{{ .PlanFileName }}"
-      - name: Show State
-        command: terraform show -json
+init: terraform init -input=false
+workspaceSelect: terraform workspace select "{{ .WorkspaceName }}"
+workspaceNew: terraform workspace new "{{ .WorkspaceName }}"
+plan: terraform plan -input=false -lock={{ .Lock }} {{ if not .Refresh }}-refresh=false {{ end }}-out={{ .PlanFileName }} {{ range .Targets }}-target='{{ . }}' {{ end }}
+showState: terraform show -json
+showPlan: terraform show -json "{{ .PlanFileName }}"
+getOutputs: terraform output -json
+apply: terraform apply -auto-approve -input=false "{{ .PlanFileName }}"
+destroy: terraform destroy -auto-approve -input=false
