@@ -1,16 +1,16 @@
-resource "aws_instance" "onboarding1" {
-  ami           = var.instance_ami
-  instance_type = var.instance_type
-  key_name      = "chkey1"
+# resource "aws_instance" "onboarding1" {
+#   ami           = var.instance_ami
+#   instance_type = var.instance_type
+#   key_name      = "chkey1"
 
-  root_block_device {
-    volume_size = 10
-  }
+#   root_block_device {
+#     volume_size = 10
+#   }
 
-  tags = {
-    test = "New Changes123"
-  }
-}
+#   tags = {
+#     test = "New Changes123"
+#   }
+# }
 
 # resource "aws_instance" "onboarding2" {
 #   ami           = var.instance_ami
