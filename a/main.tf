@@ -9,6 +9,7 @@ resource "aws_instance" "aserver" {
 
   tags = {
     name = "As server"
+    test = "add tag to a server check b"
   }
 }
 
