@@ -1,4 +1,4 @@
-resource "aws_instance" "onboarding1" {
+resource "aws_instance" "bserver" {
   ami           = var.instance_ami
   instance_type = var.instance_type
   key_name      = "chkey1"
