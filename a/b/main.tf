@@ -8,7 +8,7 @@ resource "aws_instance" "bserver" {
   }
 
   tags = {
-    test = "New Changes123"
+    name = "bserver"
   }
 }
 
