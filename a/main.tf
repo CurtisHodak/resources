@@ -8,7 +8,7 @@ resource "aws_instance" "onboarding1" {
   }
 
   tags = {
-    test = "New Changes123"
+    name = "As server"
   }
 }
 
