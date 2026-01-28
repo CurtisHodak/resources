@@ -9,6 +9,7 @@ resource "aws_instance" "rootserver" {
 
   tags = {
     name = "rootserver"
+    misc = "fix drift in untargeted way"
   }
 }
 
