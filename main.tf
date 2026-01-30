@@ -1,17 +1,17 @@
-resource "aws_instance" "rootserver" {
-  ami           = var.instance_ami
-  instance_type = var.instance_type
-  key_name      = "chkey1"
+# resource "aws_instance" "rootserver" {
+#   ami           = var.instance_ami
+#   instance_type = var.instance_type
+#   key_name      = "chkey1"
 
-  root_block_device {
-    volume_size = 20
-  }
+#   root_block_device {
+#     volume_size = 20
+#   }
 
-  tags = {
-    name = "rootserver"
-    misc = "fix drift in untargeted way"
-  }
-}
+#   tags = {
+#     name = "rootserver"
+#     misc = "fix drift in untargeted way"
+#   }
+# }
 
 # resource "aws_instance" "onboarding2" {
 #   ami           = var.instance_ami
